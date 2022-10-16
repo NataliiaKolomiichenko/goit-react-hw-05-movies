@@ -22,7 +22,7 @@ const MovieDetails = () => {
 
     const handleClick = () => {
         navigate(backLinkHref)
-    }
+    };
 
     const { title, overview, poster_path } = movieDetails;
 

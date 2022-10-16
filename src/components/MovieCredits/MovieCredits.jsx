@@ -16,8 +16,6 @@ const MovieCredits = () => {
         
         fetchCredits();
     }, [movieId])
-    
-    console.log(credits)
 
     return (
         credits.length === 0 ? <div>We don't have any information about actors for this movies</div> :

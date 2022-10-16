@@ -15,9 +15,7 @@ const MovieCredits = () => {
         }
         
         fetchCredits();
-    }, [movieId])
-
-    console.log(reviews)
+    }, [movieId]);
 
     return (
         reviews.length === 0 ? <div>We don't have any reviews for this movies</div> :
