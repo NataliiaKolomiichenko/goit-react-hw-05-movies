@@ -14,6 +14,7 @@ const MovieDetails = () => {
     
     useEffect(() => {
         stateFrom.current = location.state?.from
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
