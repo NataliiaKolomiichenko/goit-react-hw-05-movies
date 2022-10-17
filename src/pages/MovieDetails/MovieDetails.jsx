@@ -1,18 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, useRef } from 'react';
 import { FetchMovieDetails } from '../../components/MoviesAPI'
-import { Link, Outlet, useParams, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Button, Box, ContentBox } from './StyledMovieDetails';
 
 const MovieDetails = () => { 
     const { movieId } = useParams();
     const [movieDetails, setMovieDetails] = useState({});
     const [movieGenres, setMovieGenres] = useState([]);
+    const stateFrom = useRef('');
     const location = useLocation();
     const navigate = useNavigate();
-    const backLinkHref = location.state?.from ?? "/"
+    const backLinkHref = stateFrom.current ?? "/"
+    
+    useEffect(() => {
+        stateFrom.current = location.state?.from
+    }, [])
 
     useEffect(() => {
-        const fetchMovieDetails = async () => {
+            const fetchMovieDetails = async () => {
             const moviesDetail = await FetchMovieDetails(movieId);
             setMovieDetails(moviesDetail);
             setMovieGenres(moviesDetail.genres.map(item => item.name))
@@ -43,10 +48,12 @@ const MovieDetails = () => {
             
             <h3>Additional information</h3>
             <ul>
-                <li><Link to="cast">Cast</Link></li>
-                <li><Link to="reviews">Reviews</Link></li>
+                <li><Link to="cast" state={{ from: { backLinkHref } }}>Cast</Link></li>
+                <li><Link to="reviews" state={{from: {backLinkHref}}}>Reviews</Link></li>
             </ul>
-            <Outlet />
+            <Suspense>
+                <Outlet />
+            </Suspense>
         </>
     )
 }

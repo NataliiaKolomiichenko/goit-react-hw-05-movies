@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {StyledSearchForm} from './StyledSearchForm'
+import { StyledSearchForm } from './StyledSearchForm';
 
 const SearchForm = ({ onSubmit }) => {
     return (

@@ -3,6 +3,7 @@ import { useSearchParams, useLocation } from 'react-router-dom';
 import { SearchMovies } from '../../components/MoviesAPI'
 import SearchForm from '../../components/SearchForm';
 import MoviesList from '../../components/MoviesList'
+import { Notify } from 'notiflix';
 
 const Movies = () => {
     const [searchMoviesList, setSearchMoviesList] = useState([]);
@@ -26,19 +27,21 @@ const Movies = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.currentTarget;
-        const searchQuery = form.elements.query.value.toLowerCase();
-        searchQuery === "" ? setSearchParams({}) : setSearchParams({ query: searchQuery });
-        form.reset()
+        let searchQuery = form.elements.query.value.toLowerCase();
+        if (searchQuery === "") {
+            setSearchParams({})
+            return Notify.warning('Please enter a search name.');
+        }
+        setSearchParams({ query: searchQuery });
     }
 
     return (
         <>
-            <SearchForm onSubmit={handleSubmit} />
+            <SearchForm onSubmit={handleSubmit} query={query} />
             
             {(query !== null) && <MoviesList items={searchMoviesList} location={location} />}
         </>
     )
-
 }
 
 export default Movies;

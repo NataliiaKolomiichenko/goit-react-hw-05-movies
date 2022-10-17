@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes, NavLink } from "react-router-dom";
+import { Route, Routes, NavLink, Navigate } from "react-router-dom";
 import Container from "styles/Container";
 import Header from './Header';
 import styled from "styled-components"
@@ -24,6 +24,7 @@ const MovieCredits = lazy(() => import('../components/MovieCredits'))
 const MovieReviews = lazy(() => import('../components/MovieReviews'))
 
 const App = () => {
+
   return <>
     <Container>
       <Header>
@@ -35,12 +36,12 @@ const App = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="movies" element={<Movies />} />
-            <Route path="movies/:movieId" element={<MovieDetails />}>
+          <Route path="movies" element={<Movies />} />
+            <Route path="movies/:movieId" element={<MovieDetails  />}>
               <Route path="cast" element={<MovieCredits />} />
               <Route path="reviews" element={<MovieReviews />} />
           </Route>
-          <Route path="*" element={<Home />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Suspense>
     </Container>
